@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CatalogWebApplication.Controllers
 {
     [ApiController]
-    [Route("api/categories")]
+    [Route("api/Catalogs")]
     public class CatalogsController : ControllerBase
     {
         private readonly CatalogService _service;
@@ -33,12 +33,13 @@ namespace CatalogWebApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCategoryDto request)
+        public async Task<IActionResult> Create(string name, string? parentId)
         {
-            if (!Guid.TryParse(request.ParentId, out _))
+            if ( parentId != null && !Guid.TryParse(parentId, out _))
                 return BadRequest("Invalid ID format. Must be a GUID.");
 
-            var createdCategory = await _service.CreateAsync(request.Name, request.ParentId);
+
+            var createdCategory = await _service.CreateAsync(name, parentId);
             return CreatedAtAction(nameof(GetById), new { id = createdCategory.Id }, createdCategory);
         }
 

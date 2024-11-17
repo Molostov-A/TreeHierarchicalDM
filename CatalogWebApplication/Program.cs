@@ -2,7 +2,6 @@ using CatalogWebApplication.Service;
 using CatalogWebApplication.Repository;
 using Microsoft.EntityFrameworkCore;
 using CatalogWebApplication.Context;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,12 +12,14 @@ builder.Services.AddSwaggerGen();
 
 var databaseType = builder.Configuration["Database:Type"];
 
-if (databaseType == "MongoDB")
+
+if (string.Compare(databaseType, "MongoDb", StringComparison.OrdinalIgnoreCase) == 0)
 {
+    Console.WriteLine($"Database Type: {databaseType}");  // Для отладки
     builder.Services.AddSingleton<MongoDbContext>();
     builder.Services.AddScoped<ICatalogRepository, MongoCatalogRepository>();
 }
-else if (databaseType == "SqlServer")
+else if (string.Compare(databaseType, "SqlServer", StringComparison.OrdinalIgnoreCase) == 0 )
 {
     builder.Services.AddDbContext<SqlDbContext>(options =>
         options.UseSqlServer(builder.Configuration["Database:ConnectionStrings:SqlServer"]));

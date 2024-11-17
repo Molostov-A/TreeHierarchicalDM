@@ -20,11 +20,11 @@ namespace CatalogWebApplication.Service
 
         public async Task<Catalog> CreateAsync(string name, string? parentId)
         {
-            var mainCategoryId = await EnsureMainCategoryAsync();
+            var mainCatalogId = await EnsureMainCatalogAsync();
 
             if (parentId == null)
             {
-                parentId = mainCategoryId;
+                parentId = mainCatalogId;
             }
             else
             {
@@ -33,36 +33,36 @@ namespace CatalogWebApplication.Service
                     throw new Exception("Parent not found.");
             }
 
-            var newCategory = new Catalog
+            var newCatalog = new Catalog
             {
                 Name = name,
                 ParentId = parentId
             };
 
-            await _repository.CreateAsync(newCategory);
+            await _repository.CreateAsync(newCatalog);
 
             if (parentId != null)
             {
                 var parent = await _repository.GetByIdAsync(parentId);
-                parent?.ChildIds?.Add(newCategory.Id);
+                parent?.ChildIds?.Add(newCatalog.Id);
                 if (parent != null)
                 {
                     await _repository.UpdateAsync(parent);
                 }
             }
 
-            return newCategory;
+            return newCatalog;
         }
 
         public async Task DeleteAsync(string id)
         {
-            var category = await _repository.GetByIdAsync(id);
-            if (category == null)
+            var catalog = await _repository.GetByIdAsync(id);
+            if (catalog == null)
                 throw new Exception("Category not found.");
 
-            if (category.ParentId != null)
+            if (catalog.ParentId != null)
             {
-                var parent = await _repository.GetByIdAsync(category.ParentId);
+                var parent = await _repository.GetByIdAsync(catalog.ParentId);
                 parent?.ChildIds?.Remove(id);
                 if (parent != null)
                 {
@@ -73,18 +73,18 @@ namespace CatalogWebApplication.Service
             await _repository.DeleteAsync(id);
         }
 
-        private async Task<string> EnsureMainCategoryAsync()
+        private async Task<string> EnsureMainCatalogAsync()
         {
-            Catalog mainCategory;
+            Catalog mainCatalog;
             if (!await _repository.AnyAsync())
             {
-                mainCategory = new Catalog { Name = "Main" };
-                await _repository.CreateAsync(mainCategory);
-                return mainCategory.Id;
+                mainCatalog = new Catalog { Name = "Main" };
+                await _repository.CreateAsync(mainCatalog);
+                return mainCatalog.Id;
             }
 
-            mainCategory = (await _repository.GetAllAsync()).FirstOrDefault(c => c.Name == "Main");
-            return mainCategory?.Id ?? throw new Exception("Main category not found.");
+            mainCatalog = (await _repository.GetAllAsync()).FirstOrDefault(c => c.Name == "Main");
+            return mainCatalog?.Id ?? throw new Exception("Main category not found.");
         }
     }
 }

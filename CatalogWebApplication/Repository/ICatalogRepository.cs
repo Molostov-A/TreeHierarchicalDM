@@ -6,8 +6,8 @@ namespace CatalogWebApplication.Repository
     {
         Task<List<Catalog>> GetAllAsync();
         Task<Catalog?> GetByIdAsync(string id);
-        Task CreateAsync(Catalog category);
-        Task UpdateAsync(Catalog category);
+        Task CreateAsync(Catalog catalog);
+        Task UpdateAsync(Catalog catalog);
         Task DeleteAsync(string id);
         Task<bool> AnyAsync(); // Checking the availability of records
     }

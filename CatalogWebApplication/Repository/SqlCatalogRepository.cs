@@ -19,24 +19,24 @@ namespace CatalogWebApplication.Repository
         public async Task<Catalog?> GetByIdAsync(string id) =>
             await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
-        public async Task CreateAsync(Catalog category)
+        public async Task CreateAsync(Catalog catalog)
         {
-            _context.Categories.Add(category);
+            _context.Categories.Add(catalog);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Catalog category)
+        public async Task UpdateAsync(Catalog catalog)
         {
-            _context.Categories.Update(category);
+            _context.Categories.Update(catalog);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string id)
         {
-            var category = await GetByIdAsync(id);
-            if (category != null)
+            var catalog = await GetByIdAsync(id);
+            if (catalog != null)
             {
-                _context.Categories.Remove(category);
+                _context.Categories.Remove(catalog);
                 await _context.SaveChangesAsync();
             }
         }
