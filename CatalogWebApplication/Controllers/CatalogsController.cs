@@ -1,5 +1,4 @@
-﻿using CatalogWebApplication.Controllers.Model;
-using CatalogWebApplication.Service;
+﻿using CatalogWebApplication.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogWebApplication.Controllers
