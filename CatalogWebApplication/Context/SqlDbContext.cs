@@ -5,7 +5,7 @@ namespace CatalogWebApplication.Context
 {
     public class SqlDbContext : DbContext
     {
-        public DbSet<Catalog> Categories { get; set; }
+        public DbSet<Catalog> Catalogs { get; set; }
 
         public SqlDbContext(DbContextOptions<SqlDbContext> options) : base(options) { }
 

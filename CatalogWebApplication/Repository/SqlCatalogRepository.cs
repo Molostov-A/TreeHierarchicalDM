@@ -14,20 +14,20 @@ namespace CatalogWebApplication.Repository
         }
 
         public async Task<List<Catalog>> GetAllAsync() =>
-            await _context.Categories.ToListAsync();
+            await _context.Catalogs.ToListAsync();
 
         public async Task<Catalog?> GetByIdAsync(string id) =>
-            await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+            await _context.Catalogs.FirstOrDefaultAsync(c => c.Id == id);
 
         public async Task CreateAsync(Catalog catalog)
         {
-            _context.Categories.Add(catalog);
+            _context.Catalogs.Add(catalog);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Catalog catalog)
         {
-            _context.Categories.Update(catalog);
+            _context.Catalogs.Update(catalog);
             await _context.SaveChangesAsync();
         }
 
@@ -36,12 +36,12 @@ namespace CatalogWebApplication.Repository
             var catalog = await GetByIdAsync(id);
             if (catalog != null)
             {
-                _context.Categories.Remove(catalog);
+                _context.Catalogs.Remove(catalog);
                 await _context.SaveChangesAsync();
             }
         }
 
         public async Task<bool> AnyAsync() =>
-            await _context.Categories.AnyAsync();
+            await _context.Catalogs.AnyAsync();
     }
 }
