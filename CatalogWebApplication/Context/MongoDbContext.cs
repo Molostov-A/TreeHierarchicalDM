@@ -10,7 +10,6 @@ namespace CatalogWebApplication.Context
         public MongoDbContext(IConfiguration configuration)
         {
             var connectionString = configuration.GetSection("Database:ConnectionStrings:MongoDb").Value;
-            Console.WriteLine($"connectionString: {connectionString}");  // Для отладки
             var client = new MongoClient(connectionString);
             _database = client.GetDatabase("TreeHierarchyDb");
         }

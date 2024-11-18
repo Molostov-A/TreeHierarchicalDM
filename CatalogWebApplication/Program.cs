@@ -15,7 +15,6 @@ var databaseType = builder.Configuration["Database:Type"];
 
 if (string.Compare(databaseType, "MongoDb", StringComparison.OrdinalIgnoreCase) == 0)
 {
-    Console.WriteLine($"Database Type: {databaseType}");  // Для отладки
     builder.Services.AddSingleton<MongoDbContext>();
     builder.Services.AddScoped<ICatalogRepository, MongoCatalogRepository>();
 }
